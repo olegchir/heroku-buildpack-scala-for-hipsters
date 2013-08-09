@@ -19,6 +19,10 @@ curl --silent --location http://heroku-jvm-common.s3.amazonaws.com/jvm-buildpack
 #create the cache dir if it doesn't exist
 mkdir -p $CACHE_DIR
 
+gem install -i $CACHE_DIR/.gems --no-rdoc compass
+export PATH=$PATH:$CACHE_DIR/.gems/bin
+export GEM_PATH=$GEM_PATH:$CACHE_DIR/.gems
+
 # create default system.properties 
 if [ ! -f ${BUILD_DIR}/system.properties ]; then
   echo "java.runtime.version=1.6" > ${BUILD_DIR}/system.properties
@@ -129,10 +133,6 @@ echo 'export PATH="/app/.jdk/bin:$PATH"' >> $PROFILE_PATH
 
 # repack cache
 mkdir -p $CACHE_DIR
-
-gem install -i $CACHE_DIR/.gems --no-rdoc compass
-export PATH=$PATH:$CACHE_DIR/.gems/bin
-export GEM_PATH=$GEM_PATH:$CACHE_DIR/.gems
 
 for DIR in $CACHED_DIRS ; do
   rm -rf $CACHE_DIR/$DIR
