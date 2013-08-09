@@ -129,6 +129,11 @@ echo 'export PATH="/app/.jdk/bin:$PATH"' >> $PROFILE_PATH
 
 # repack cache
 mkdir -p $CACHE_DIR
+
+gem install -i $CACHE_DIR/.gems --no-rdoc compass
+export PATH=$PATH:$CACHE_DIR/.gems/bin
+export GEM_PATH=$GEM_PATH:$CACHE_DIR/.gems
+
 for DIR in $CACHED_DIRS ; do
   rm -rf $CACHE_DIR/$DIR
   mkdir -p $CACHE_DIR/$DIR
